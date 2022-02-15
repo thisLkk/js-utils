@@ -1,0 +1,14 @@
+.git/
+.gitignore
+npm-debug.log
+docs/
+.npmignore
+v2/
+.babelrc.js
+.babelrc
+TODO.md
+upload-doc.config.json
+bin/
+src/
+hunter_jssdk_page/
+package-lock.json

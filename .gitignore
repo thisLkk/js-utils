@@ -1,0 +1,14 @@
+.DS_Store
+/node_modules
+node_modules
+.gobble*
+_actual
+coverage
+.commithash
+.idea
+/doc
+/dist
+dist
+/es
+es
+.vscode
