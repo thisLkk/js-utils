@@ -104,7 +104,7 @@ callbackDocs += content;
  * @param {String} writeDocsPath - 写入文件的路径
  */
 exports.writeSdkApi = (writeDocsPath, params) => {
-  let result = 'window.JSUTILS = ' + JSON.stringify(params);
+  let result = 'window.JSUTILSAPI = ' + JSON.stringify(params);
   fs.writeFile(writeDocsPath, result, 'utf8', function (error) {
     if (error) {
       throw error;

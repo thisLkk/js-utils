@@ -1,6 +1,6 @@
 {
   "name": "@lu-kk/js-utils",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "js-utils、一些常用的函数库",
   "main": "lib/index.js",
   "scripts": {

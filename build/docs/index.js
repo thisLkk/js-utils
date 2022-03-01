@@ -25,11 +25,11 @@ const { version } = getPackage(packageData);
 const writeFilePath = resolve('docs/main/index.md');
 writeDocs(writeFilePath, params);
 // 在cocs页面写入api
-const writeDocsPath = resolve('docs/.vuepress/public/hunter-jssdk-sdkApi.js');
+const writeDocsPath = resolve('docs/.vuepress/public/js-utils-api.js');
 writeSdkApi(writeDocsPath, params);
 // 在docs页面写入sdk通信js
 const copyFromPath = resolve(`dist/static/js/${version}/index.min.js`);
-const copyToPath = resolve('docs/.vuepress/public/hunter-jssdk.js');
+const copyToPath = resolve('docs/.vuepress/public/js-utils-min.js');
 copySdkJs(copyFromPath, copyToPath)
 // const versionPath1 = resolve('README.md');
 // const versionPath2 = resolve('docs/README.md');

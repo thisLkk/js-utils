@@ -1,7 +1,5 @@
 // 主要sdk方法集合
 import { validType } from '../lib/utils.js'
-// import invokes from './invoke.js'
-// import { CB } from './globalCallback.js'
 
 export class JSUTIL {
   /**
@@ -17,7 +15,7 @@ export class JSUTIL {
    * @param {String} name - 必填项，身份证姓名（包含少数名族 · 格式，最大长度不超过20位）
    * @param {regIDCardNameCallback} callback - 回调函数
    * @example
-   *  const obj = {};
+   *  const text = "鲁宽宽";
    *  function callback(res) {
    *    if (code == 0) {
    *      console.log('succse')
@@ -42,7 +40,7 @@ export class JSUTIL {
    * @callback regIDCardNameCallback
    * @param {Object} res - 回调参数 json串格式
    * @param {Number} res.code - 状态值0：成功 -1：失败
-   * @param {Boolean} res.data - 结果 true | false
+   * @param {Boolean} res.data - 结果 true/false
    * @param {String} res.msg - 信息
    */
 }

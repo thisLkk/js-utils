@@ -1,6 +1,6 @@
 ---
 title: js-utils文档
-date: Tue Feb 15 2022 16:38:39 GMT+0800 (GMT+08:00)
+date: Mon Feb 28 2022 21:22:37 GMT+0800 (GMT+08:00)
 ---
 
 ## 方法集合
@@ -42,5 +42,5 @@ JSUTILS.regIDCardName("鲁宽宽", callback)
 |------|------|------|------|
 |res|回调参数 json串格式|Object|
 |res.code - 状态值0：成功|状态值0：成功|Number|
-|res.data|结果 true | false|Boolean|
+|res.data|结果 truefalse|Boolean|
 |res.msg|信息|String|

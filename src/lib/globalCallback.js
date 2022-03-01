@@ -51,3 +51,15 @@ export let CB = {
     return isFunction(callback) ? actualCallback(callback, del) : ''
   }
 }
+/**
+ * js-utils 的统一回调
+ * @param {Function} cb 
+ * @param {Number} code
+ * @param {Function} code
+ */
+export let jsUtilsCb = (cb) => {
+  // 验证是否有正确回调
+  let isTrue = isFunction(cb)
+  if (!isTrue) return
+  cb()
+}

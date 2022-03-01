@@ -5,7 +5,7 @@ tagline: 常用的函数库
 actionText: 查看文档
 actionLink: /main/
 sidebar: false
-footer: js-utils | Copyright © 2020-2021 鲁宽宽
+footer: js-utils | Copyright © 2020-2022 鲁宽宽
 ---
 ## 命令
 

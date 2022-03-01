@@ -1,6 +1,6 @@
 # @lu-kk/js-utils
-
-## 使用
+具体使用请查看文档【[文档地址](http://jintingyo.com/web/js-utils/)】
+## 说明
 
 ### npm
 
