@@ -10,5 +10,5 @@ TODO.md
 upload-doc.config.json
 bin/
 src/
-hunter_jssdk_page/
 package-lock.json
+build/

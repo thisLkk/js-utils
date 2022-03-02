@@ -7,11 +7,21 @@ import { version } from '../../package.json'
 
 export default {
   input: 'src/index.js',
-  output: {
-    file: `dist/static/js/${version}/index.js`,
-    format: 'umd',
-    name: 'JSUTILS'
-  },
+  output: [
+    {
+      file: `lib/index.esm.js`,
+      format: 'esm'
+    },
+    {
+      file: `lib/index.umd.js`,
+      format: 'umd',
+      name: 'JSUTILS'
+    },
+    {
+      file: 'lib/index.cjs.js',
+      format: 'cjs'
+    }
+  ],
   plugins: [
     json(
       {

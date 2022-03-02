@@ -1,11 +1,13 @@
 {
   "name": "@lu-kk/js-utils",
-  "version": "0.0.6",
+  "version": "0.0.16",
   "description": "js-utils、一些常用的函数库",
-  "main": "lib/index.js",
+  "main": "lib/index.cjs.js",
+  "module": "lib/index.esm.js",
+  "browser": "lib/index.umd.js",
   "scripts": {
     "rollup:dev": "rollup -c build/rollup/rollup.config.dev.js",
-    "rollup:build": "rimraf dist && rollup -c build/rollup/rollup.config.prod.js && rollup -c build/rollup/rollup.config.prod.uglify.js",
+    "rollup:build": "rimraf lib && rollup -c build/rollup/rollup.config.prod.js && rollup -c build/rollup/rollup.config.prod.uglify.js",
     "build": "npm run rollup:build",
     "docs": "node build/docs/index.js",
     "docs:dev": "vuepress dev docs",
@@ -32,6 +34,18 @@
     "rollup-plugin-uglify": "^6.0.4",
     "vuepress": "^1.8.2"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thisLkk/js-utils"
+  },
+  "bugs": {
+    "url": "https://github.com/thisLkk/js-utils/issues"
+  },
+  "homepage": "https://jintingyo.com/web/js-utils/main/",
+  "keywords": [
+    "JavaScript",
+    "Function"
+  ],
   "author": "lukuankuan@zhuanzhuan.com",
   "license": "ISC"
 }
