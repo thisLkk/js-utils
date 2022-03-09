@@ -14,11 +14,12 @@ const sortHandle = (result, name) => {
 };
 /**
  * 处理注释文件为数组返回；
- * @param {String} file_data - 源文件
+ * @param {String} originContent - 源文件
  * @param {Boolean} isCallback - true： 结果为 回调函数的注释  false ： 结果为 方法的注释
  */
-const analysisNotes = (file_data, isCallback) => {
-  let mainData = file_data.match(/\/\*\*[\s\S]+?\*\//g);
+const analysisNotes = (originContent, isCallback) => {
+  let mainData = originContent.match(/\/\*\*[\s\S]+?\*\//g);
+  console.log('mainData----', mainData)
   let result = [];
   mainData.forEach((main) => {
     // 去除换行
@@ -50,11 +51,26 @@ const analysisNotes = (file_data, isCallback) => {
 };
 
 /**
- * 处理注释文件(匹配 @ method wechatAndQQCallLogin 类型)为数组返回；  
- * @param {String} file_data - 源文件
+ * 处理路径
+ * @param {*} originFile 
+ * @param {*} filePathList 
+ * @returns ["src"]
  */
-exports.methodData = (file_data) => {
-  let mainData = analysisNotes(file_data);
+exports.formatPath = (originFile, filePathList) => {
+  let allFiles = []
+  filePathList.forEach(item => {
+    const curPath = originFile + '\\' + item
+    allFiles.push(curPath)
+  })
+  return allFiles
+}
+
+/**
+ * 处理注释文件为数组返回；  
+ * @param {String} originContent - 注释内容
+ */
+exports.methodData = (originContent) => {
+  let mainData = analysisNotes(originContent);
   let result = [];
   mainData.forEach((main) => {
     let resultItem = {

@@ -1,13 +1,15 @@
+import path from 'path'
 import json from '@rollup/plugin-json' // 解析json文件
 import { babel } from '@rollup/plugin-babel' // 转换es6语法
 import { nodeResolve } from '@rollup/plugin-node-resolve' // 处理node_modeules依赖
 import commonjs from '@rollup/plugin-commonjs' // 处理 common 模块js
 import replace from '@rollup/plugin-replace' // 全局替换
 import { uglify } from 'rollup-plugin-uglify' // 压缩文件
-import { version } from '../../package.json'
+import typescript from 'rollup-plugin-typescript2'
+const getPath = _path => path.resolve(__dirname, _path)
 
 export default {
-  input: 'src/index.js',
+  input: 'src/index.ts',
   output: [
     {
       file: `lib/index.esm.min.js`,
@@ -24,6 +26,10 @@ export default {
     }
   ],
   plugins: [
+    typescript({
+      tsconfig: getPath('../../tsconfig.json'), // 导入本地ts配置
+      extensions: ['.js', '.ts']
+    }),
     json(
       {
         exclude: [ 'node_modules/**' ],
@@ -32,6 +38,7 @@ export default {
     babel(
       {
         babelHelpers: 'bundled',
+        extensions: ['.js', '.ts'],
         exclude: 'node_modules/**'
       }
     ),
@@ -44,6 +51,7 @@ export default {
       }
     ),
     replace({
+      preventAssignment: true,
       'process.env.NODE_ENV': JSON.stringify('production')
     }),
     uglify()

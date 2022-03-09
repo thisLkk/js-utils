@@ -7,36 +7,17 @@ actionLink: /main/
 sidebar: false
 footer: js-utils | Copyright © 2020-2022 鲁宽宽
 ---
-## 命令
 
-```bash
-# 开发启动
-$ npm run dev
-# 构建
-$ npm run build
-# 发布正式版本
-$ npm run pub
-# 发布测试版本
-$ npm run pub-dev
-# 发布文档
-$ npm run doc
-```
-
-## 使用
-
-### npm
-
+## 安装
 ```javascript
-$ npm i @lu-kk/js-utils -save
+$ npm i @lu-kk/js-utils --save
 ```
-### 代码片段
 
+## 按需加载
 ```javascript
-import JSUTILS from '@lu-kk/js-utils'
-JSUTILS.regIDCardName('鲁宽宽', (res) => {
-  const { code, data, msg } = res;
-  if (code == 0) {
-    console.log('success')
-  }
-})
+import { regIdCardName } from '@lu-kk/js-utils'
+const text = '鲁宽宽'
+regIdCardName(text) // true or false
 ```
+## TS编写
+更好的代码提示
