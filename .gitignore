@@ -8,6 +8,8 @@ coverage
 .idea
 /doc
 /dist
+/lib
+lib
 dist
 /es
 es
