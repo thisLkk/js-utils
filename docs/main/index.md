@@ -1,46 +1,61 @@
----
-title: js-utils文档
-date: Mon Feb 28 2022 21:22:37 GMT+0800 (GMT+08:00)
----
-
-## 方法集合
+# API集合
+***
+## 正则 
 
 ***
-### regIDCardName
+### regIdCardCode 
 
-<p>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: 700">功能:</span>&nbsp; [正则] 校验中国身份证姓名格式   </p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: 700">版本:</span>&nbsp; 0.0.1</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: 700">参数:</span></p>
+* **功能**:
+  * 校验中国身份证号（包含x） 
+* **版本**:
+  * 0.0.22 
+* **参数**:
 
-| 入参 | 说明 | 类型 |
-|------|------|------|------|
-|name|必填项，身份证姓名（包含少数名族 · 格式，最大长度不超过20位）|String|
-|callback|回调函数|regIDCardNameCallback|
+| 参数 | 备注 | 类型 |  
+|------|------|------|------|  
+|code|必填项，身份证号|String|
 
-<p>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: 700">例子:</span></p>
+* **返回值**:
+  * {Boolean} true 或者 false 
+
+* **示例**:
 
 ```javascript
-const obj = {};
-
-function callback(res) {
-  if (code == 0) {
-    console.log('succse')
-  }
-};
-JSUTILS.regIDCardName("鲁宽宽", callback)
+import {
+  regIdCardCode
+} from "@lu-kk/js-utils"
+const code = "41072219940212543x";
+regIdCardCode(code) // true or false
 ```
 
-<p>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: 700">扫描二维码测试:</span></p>
-<img width="200px" height="200px" src="https://api.qrserver.com/v1/create-qr-code/?data=https%3A%2F%2Fm.zhuanzhuan.com%2Fu%2Fhunter_jssdk_page%2F%3FsdkId%3DregIDCardName"></img>
-
-## 回调集合
+* **扫描二维码测试**:  
+<img width="200px" height="200px" src="https://api.qrserver.com/v1/create-qr-code/?data=https%3A%2F%2Fjintingyo.com%2Fh5%2Fjs-utils-test-page%3FsdkId%3DregIdCardCode%20"></img>
 
 ***
-### regIDCardNameCallback
+### regIdCardName 
 
-| 回调入参 | 说明 | 类型 |
-|------|------|------|------|
-|res|回调参数 json串格式|Object|
-|res.code - 状态值0：成功|状态值0：成功|Number|
-|res.data|结果 truefalse|Boolean|
-|res.msg|信息|String|
+* **功能**:
+  * 校验中国身份证姓名（包含少数名族 · 格式，最大长度不超过20位） 
+* **版本**:
+  * 0.0.22 
+* **参数**:
+
+| 参数 | 备注 | 类型 |  
+|------|------|------|------|  
+|name|必填项，身份证姓名|String|
+
+* **返回值**:
+  * {Boolean} true 或者 false 
+
+* **示例**:
+
+```javascript
+import {
+  regIdCardName
+} from "@lu-kk/js-utils"
+const text = "鲁宽宽";
+regIdCardName(text) // true or false
+```
+
+* **扫描二维码测试**:  
+<img width="200px" height="200px" src="https://api.qrserver.com/v1/create-qr-code/?data=https%3A%2F%2Fjintingyo.com%2Fh5%2Fjs-utils-test-page%3FsdkId%3DregIdCardName%20"></img>

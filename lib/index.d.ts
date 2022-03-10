@@ -1,8 +1,8 @@
 import regIdCardName from './core/regIdCardName';
-import regIdCardNameTest from './core/regIdCardNameTest';
-export { regIdCardName, regIdCardNameTest };
+import regIdCardCode from './core/regIdCardCode';
+export { regIdCardName, regIdCardCode };
 declare const _default: {
     regIdCardName: typeof regIdCardName;
-    regIdCardNameTest: typeof regIdCardNameTest;
+    regIdCardCode: typeof regIdCardCode;
 };
 export default _default;

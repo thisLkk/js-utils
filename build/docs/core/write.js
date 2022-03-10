@@ -1,99 +1,83 @@
 // 写入markdown文件
 const fs = require('fs');
 
+// 将一维数组转为二维数组，区分type类型
+const formatHandle = (list) => {
+  let result = []
+  list.forEach(item => {
+    let resultIndex = result.findIndex(el => el.type == item.type)
+    if (resultIndex == -1) {
+      result.push({
+        type: item.type,
+        data: [item]
+      })
+    } else {
+      result[resultIndex].data.push(item)
+    }
+  })
+  return result
+}
+
 /**
  * 写入markdown文件
  * @param {String} writePath - 写入文件的路径
  */
-exports.writeDocs = (writePath, params) => {
-  // console.log(writePath, params.methodList)
-  const {methodList, callbackList} = params;
-// 首页title
-  let title = `---
-title: js-utils文档
-date: ${new Date().toString()}
----
-`;
-
-
-// ***********分类：方法区域、回调区域***********
-// ***********方法区域***********
-  let methodDocs = `
-## 方法集合
-`;
-
-// 动态渲染每一个方法
-  methodList.forEach(method => {
-let content = `
+exports.writeDocs = (writePath, contentList) => {
+  const dataSource = formatHandle(contentList)
+  // console.log(writePath, dataSource)
+let mdText = 
+`# API集合`;
+  // 动态渲染每一个方法
+dataSource.forEach(item => {
+let content = 
+`
 ***
-### ${method.method}
-${method.summary
-  ? `<p style="color: #f47920">&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: 700">警告:</span>&nbsp; ${method.summary}</p>`
-  : ''
-}
-<p>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: 700">功能:</span>&nbsp; ${method.description}</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: 700">版本:</span>&nbsp; ${method.version}</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: 700">参数:</span></p>
+## ${item.type}
 `;
-// 入参表格
-let paramTable = `
-| 入参 | 说明 | 类型 |
-|------|------|------|------|
+item.data.forEach(data => {
+content += `
+***
+### ${data.name}
+`
+content +=
+`
+* **功能**:
+  * ${data.description}
+* **版本**:
+  * ${data.version}
+* **参数**:
+`
+let table = `
+| 参数 | 备注 | 类型 |  
+|------|------|------|------|  
 `;
-// 入参
-method.param.forEach(item => {
-  paramTable += `|${item.key || ''}|${item.value || ''}|${item.type}|
+data.param.forEach(item => {
+  table += `|${item.key || ''}|${item.value || ''}|${item.type}|
 `;
+content += table;
 })
-
-// 例子
-content += paramTable;
-let example = `
-<p>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: 700">例子:</span></p>
+if (data.returns) {
+content += `
+* **返回值**:
+  * ${data.returns}
 `;
-example += '\n```javascript\n'+ method.example + '\n```\n';
+}
+let example = `
+* **示例**:
+`;
+example += '\n```javascript\n'+ data.example + '\n```\n';
 content += example;
-
-// 二维码
-let url = `https://m.zhuanzhuan.com/u/hunter_jssdk_page/?sdkId=${method.method}`
+let url = `https://jintingyo.com/h5/js-utils-test-page?sdkId=${data.name}`
 let qrCode = `
-<p>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: 700">扫描二维码测试:</span></p>
+* **扫描二维码测试**:  
 <img width="200px" height="200px" src="https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(url)}"></img>\n`
 content += qrCode;
-
-methodDocs += content;
-
-});
-
-// ***********回调区域***********
-let callbackDocs = `
-## 回调集合
-`;
-// 动态渲染每一个回调
-callbackList.forEach(callback => {
-let content = `
-***
-### ${callback.callback}
-`;
-{/* <p>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: 700">:</span></p> */}
-// 入参表格
-let paramTable = `
-| 回调入参 | 说明 | 类型 |
-|------|------|------|------|
-`;
-// 入参
-callback.param.forEach(item => {
-  paramTable += `|${item.key || ''}|${item.value || ''}|${item.type}|
-`;
 })
-content += paramTable;
-callbackDocs += content;
-
+mdText += content;
 });
-
-  let result = title + methodDocs + callbackDocs;
-  fs.writeFile(writePath, result, 'utf8', function (error) {
+  fs.writeFile(writePath, mdText, 'utf8', function (error) {
     if (error) {
+      console.log('### 写入失败，请排查')
       throw error;
     }
   });
@@ -103,8 +87,8 @@ callbackDocs += content;
  * 写入sdkApi文件,提供测试页面使用
  * @param {String} writeDocsPath - 写入文件的路径
  */
-exports.writeSdkApi = (writeDocsPath, params) => {
-  let result = 'window.JSUTILSAPI = ' + JSON.stringify(params);
+exports.writeApiList = (writeDocsPath, contentList) => {
+  let result = 'window.JSUTILSAPI = ' + JSON.stringify(contentList);
   fs.writeFile(writeDocsPath, result, 'utf8', function (error) {
     if (error) {
       throw error;

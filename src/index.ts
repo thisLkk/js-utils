@@ -1,10 +1,10 @@
 import regIdCardName from './core/regIdCardName'
-import regIdCardNameTest from './core/regIdCardNameTest'
+import regIdCardCode from './core/regIdCardCode'
 export {
   regIdCardName,
-  regIdCardNameTest
+  regIdCardCode
 }
 export default {
   regIdCardName,
-  regIdCardNameTest
+  regIdCardCode
 }

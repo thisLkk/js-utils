@@ -15,37 +15,19 @@ const sortHandle = (result, name) => {
 /**
  * 处理注释文件为数组返回；
  * @param {String} originContent - 源文件
- * @param {Boolean} isCallback - true： 结果为 回调函数的注释  false ： 结果为 方法的注释
  */
-const analysisNotes = (originContent, isCallback) => {
-  let mainData = originContent.match(/\/\*\*[\s\S]+?\*\//g);
-  console.log('mainData----', mainData)
+const analysisNotes = (originContent) => {
+  let contentList = originContent.match(/\/\*\*[\s\S]+?\*\//g);
+  // console.log('contentList----', contentList)
   let result = [];
-  mainData.forEach((main) => {
-    // 去除换行
-    let content = main.replace(/[\r\n]/g, '');
-    // 只处理包含方法的注释 如： @method wechatAndQQCallLogin 
-    if (content.indexOf('@method') > -1 && !isCallback) {
-      // 每一行取出方法名与内容
-      let lineData = content.split('* @');
-      // 不处理 @method包含中文的数据
-      let isNoMethod = false;
-      lineData.forEach((line) => {
-        if (line.indexOf('method') > -1) {
-          if (/[\u4E00-\u9FFF]+/.test(line)) {
-            isNoMethod = true;
-          }; 
-        }
-      })
-      if (isNoMethod) return;
-      result.push(lineData)
-    };
-    // 只处理包含回调的注释 如：@callback downloadApkCallback
-    if (content.indexOf('@callback') > -1 && isCallback) {
-      // 每一行取出方法名与内容
-      let lineData = content.split('* @');
-      result.push(lineData)
-    };
+  contentList.forEach((item) => {
+    // 消除换行及/** */
+    let content = item.replace(/[\r\n]|\/\*\*|\*\//g, '');
+    // console.log('content------', content)
+    let lineData = content.split('* @');
+    lineData.shift()
+    // console.log('lineData---', lineData)
+    result.push(lineData)
   })
   return result;
 };
@@ -69,132 +51,49 @@ exports.formatPath = (originFile, filePathList) => {
  * 处理注释文件为数组返回；  
  * @param {String} originContent - 注释内容
  */
-exports.methodData = (originContent) => {
-  let mainData = analysisNotes(originContent);
+exports.formatContent = (originContent) => {
+  let notesList = analysisNotes(originContent);
+  // console.log('notesList---', notesList)
   let result = [];
-  mainData.forEach((main) => {
-    let resultItem = {
-      method: '',
-      summary: '',
-      description: '',
-      version: '',
-      param: [],
-      example: ''
-    };
-    let selects = [
-      'method',
-      'summary',
-      'description',
-      'version',
-      'param',
-      'example'
-    ];
-    // 是否是标准注释
+  notesList.forEach((notes) => {
+    let notesMap = {}
     let isDocTrue = false;
-    main.forEach(line => {
+    notes.forEach(note => {
       try {
-        // console.log('main', line)
-        // 匹配出{String} 等类型
-        let regType = /\{.*?(?=\})\}/g;
-        let regKey = /\}(.*)\ -/;
-        // lineName : method、descript、summary、version、param
-        let lineName = selects.find(select => line.indexOf(select) > -1) || '';
-        if (!lineName) return;
-        switch (lineName) {
-          case 'method':
-            resultItem.method = line.replace('method ', '').trim();
-            break;
-          case 'version':
-            resultItem.version = line.replace('version ', '').trim();
-            break;
-          case 'summary':
-            resultItem.summary = line.replace('summary ', '').trim();
-            break;
-          case 'description':
-            // 去除  点击获取二维码 文案
-            resultItem.description = line.split(`}`)[1];
-            break;
-          case 'param':
-            // 是否包含外联回调
-            let hasCallback = line.indexOf('callback') > -1 && line.indexOf('{function}') == -1;
-            resultItem.param.push({
-              type: line.match(regType)[0].replace(/\}|\{/g, ""),
-              hasCallback,
-              value: line.split('-')[1] && line.split('-')[1].trim(),
-              key: line.match(regKey) && line.match(regKey)[1].trim()
-            })
-            break;
-          case 'example':
-            let exampleContent = line.replace('example', '').replace(/\*|\//g, "").trim();
-            resultItem.example = beautify(exampleContent, { indent_size: 2, space_in_empty_paren: true });
-            break;
-      
-          default:
-            break;
+        let noteLsit = note.split(' ')
+        let key = noteLsit[0]
+        let value = noteLsit.slice(1).join(' ')
+        if (key == 'example') {
+          let exampleContent = value.replace(/\*/g, "").trim();
+          value = beautify(exampleContent, {
+            indent_size: 2
+          });
+        }
+        // 处理param
+        if (key == 'param') {
+          let params = {
+            type: value.split(' ')[0].trim().replace(/\}|\{/g, ""),
+            key: value.split(' ')[1].trim(),
+            value: value.split(' ').slice(2).join(''),
+          }
+          // console.log('params-------', params)
+          if (Array.isArray(notesMap[key])) {
+            notesMap[key].push(params)
+          } else {
+            notesMap[key] = []
+            notesMap[key].push(params)
+          }
+        } else {
+          notesMap[key] = value
         }
       } catch {
         isDocTrue = true;
-        console.log(`--------------------- \n#### error ####：请检查注释是否规范！\n#### data  ####：${main}; \n#### line  ####：${line}; \n---------------------`)
+        console.log(`--------------------- \n#### error ####：请检查注释是否规范！\n#### data  ####：${notes}; \n#### line  ####：${note}; \n---------------------`)
       }
     })
     if (!isDocTrue) {
-      result.push(resultItem)
+      result.push(notesMap)
     }
-    // console.log('resultItem', resultItem)
   })
-  return sortHandle(result, 'method') || [];
+  return sortHandle(result, 'name') || [];
 };
-/**
- * 处理注释文件(匹配 @ callback downloadApkCallback 类型)为数组返回；  
- * @param {String} file_data - 源文件
- */
-exports.callbackData = (file_data) => {
-  let mainData = analysisNotes(file_data, true);
-  let result = [];
-  mainData.forEach((main) => {
-    let resultItem = {
-      callback: '',
-      param: [],
-    };
-    let selects = [
-      'callback',
-      'param'
-    ];
-    // 是否是标准注释
-    let isDocTrue = false;
-    main.forEach(line => {
-      try {
-        // console.log('main', line)
-        // 匹配出{String} 等类型
-        let regType = /\{.*?(?=\})\}/g;
-        let regKey = /\}(.*)\ -/;
-        // lineName : method、descript、summary、version、param
-        let lineName = selects.find(select => line.indexOf(select) > -1) || '';
-        if (!lineName) return;
-        switch (lineName) {
-          case 'callback':
-            resultItem.callback = line.replace('callback ', '').trim();
-            break;
-          case 'param':
-            resultItem.param.push({
-              type: line.match(regType)[0].replace(/\}|\{/g, ""),
-              value: line.split('-')[1] && line.split('-')[1].replace(/\*|\//g, "").trim(),
-              key: line.match(regKey) && line.match(regKey)[1].trim()
-            })
-            break;
-      
-          default:
-            break;
-        }
-      } catch {
-        isDocTrue = true;
-        console.log(`--------------------- \n#### error ####：请检查注释是否规范！\n#### data  ####：${main}; \n#### line  ####：${line}; \n---------------------`)
-      }
-    })
-    if (!isDocTrue) {
-      result.push(resultItem)
-    }
-    // console.log('resultItem', resultItem)
-  })
-  return sortHandle(result, 'callback') || [];
-}
