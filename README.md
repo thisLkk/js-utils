@@ -13,4 +13,4 @@ const text = '鲁宽宽'
 regIdCardName(text) // true or false
 ```
 ## TS编写
-更好的代码提示
+更好的代码提示。
