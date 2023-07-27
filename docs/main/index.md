@@ -29,7 +29,7 @@ regIdCardCode(code) // true or false
 ```
 
 * **扫描二维码测试**:  
-<img width="200px" height="200px" src="https://api.qrserver.com/v1/create-qr-code/?data=https%3A%2F%2Fjintingyo.com%2Fh5%2Fjs-utils-test-page%3FsdkId%3DregIdCardCode%20"></img>
+<img width="200px" height="200px" src="https://api.qrserver.com/v1/create-qr-code/?data=https%3A%2F%2Fjintingyo.com%2Fm%2Fjs-utils-page%3FsdkId%3DregIdCardCode%20"></img>
 
 ***
 ### regIdCardName 
@@ -58,4 +58,4 @@ regIdCardName(text) // true or false
 ```
 
 * **扫描二维码测试**:  
-<img width="200px" height="200px" src="https://api.qrserver.com/v1/create-qr-code/?data=https%3A%2F%2Fjintingyo.com%2Fh5%2Fjs-utils-test-page%3FsdkId%3DregIdCardName%20"></img>
+<img width="200px" height="200px" src="https://api.qrserver.com/v1/create-qr-code/?data=https%3A%2F%2Fjintingyo.com%2Fm%2Fjs-utils-page%3FsdkId%3DregIdCardName%20"></img>
