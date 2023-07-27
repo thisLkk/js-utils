@@ -3,7 +3,6 @@ import { babel } from '@rollup/plugin-babel' // 转换es6语法
 import { nodeResolve } from '@rollup/plugin-node-resolve' // 处理node_modeules依赖
 import commonjs from '@rollup/plugin-commonjs' // 处理 common 模块js
 import replace from '@rollup/plugin-replace' // 全局替换
-import { version } from '../../package.json'
 
 export default {
   input: 'src/index.js',
@@ -39,7 +38,7 @@ export default {
     }),
     commonjs(
       {
-      sourceMap: false // 不映射源文件，提高性能
+        sourceMap: false // 不映射源文件，提高速度
       }
     ),
     replace({

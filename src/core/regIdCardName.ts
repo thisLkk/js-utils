@@ -12,10 +12,9 @@
  *  const text = "鲁宽宽";
  *  regIdCardName(text)  // true or false
  */
-export function regIdCardName (name: string) {
+ export default  function regIdCardName (name: string) {
   if (!name) return false
   let reg = /^[a-zA-Z\u4E00-\u9FA5\uf900-\ufa2d·s]{2,20}$/
   if (reg.test(name)) return true
   return false
 }
-export default regIdCardName

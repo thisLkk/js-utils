@@ -67,7 +67,7 @@ let example = `
 `;
 example += '\n```javascript\n'+ data.example + '\n```\n';
 content += example;
-let url = `https://jintingyo.com/h5/js-utils-test-page?sdkId=${data.name}`
+let url = `https://jintingyo.com/m/js-utils-page?sdkId=${data.name}`
 let qrCode = `
 * **扫描二维码测试**:  
 <img width="200px" height="200px" src="https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(url)}"></img>\n`

@@ -15,10 +15,9 @@
  *  const code = "41072219940212543x";
  *  regIdCardCode(code)  // true or false
  */
-export function regIdCardCode (code: string | number) {
+export default function regIdCardCode (code: string | number) {
   if (!code) return false
   let reg = /^[1-9]\d{5}(18|19|20)\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/
   if (reg.test(String(code))) return true
   return false
 }
-export default regIdCardCode
